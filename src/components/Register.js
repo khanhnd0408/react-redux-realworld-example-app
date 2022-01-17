@@ -29,19 +29,57 @@ const mapDispatchToProps = dispatch => ({
 class Register extends React.PureComponent {
   constructor() {
     super()
-    this.changeEmail = ev => this.props.onChangeEmail(ev.target.value)
-    this.changePassword = ev => this.props.onChangePassword(ev.target.value)
+    this.changeEmail = ev => {
+      const emailRegex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+      this.props.onChangeEmail(ev.target.value)
+    }
+    this.changePassword = ev => {
+      const passwordRegex = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,32}$"
+      this.emailInstruction[0].display = false;
+      this.props.onChangePassword(ev.target.value)
+    }
     this.changeUsername = ev => this.props.onChangeUsername(ev.target.value)
     this.submitForm = (username, email, password) => ev => {
       ev.preventDefault()
       this.props.onSubmit(username, email, password)
     }
     this.onEmailInputForcus = ev => {
-      console.log("alo alo");
+      this.displayEmailInstruction = true;
+      this.forceUpdate();
     }
     this.onPasswordInputForcus = ev => {
       console.log("ola ola");
     }
+    this.displayEmailInstruction = false;
+    this.displayPasswordInstruction = false;
+    this.emailInstruction = [
+      {
+        content: "Should input an emails, eg: exmaple@host.com",
+        type: "email",
+        color: "#FF0000",
+        display: true,
+      },
+      {
+        content: "Should contains at least 1 cap character.",
+        type: "cap",
+        color: "#FF0000",
+        display: true,
+      },
+      {
+        content: "Should contains at least 1 number",
+        type: "number",
+        color: "#FF0000",
+        display: true,
+      },
+      {
+        content: "Should contains at least 1 special key",
+        type: "special",
+        color: "#FF0000",
+        display: true,
+      }
+    ];
+    this.passwordInstruction = [];
   }
 
   componentWillUnmount() {
@@ -52,7 +90,8 @@ class Register extends React.PureComponent {
     const email = this.props.email
     const password = this.props.password
     const username = this.props.username
-
+    const listEmailItems = this.emailInstruction.map((item) => <li style={{ color: item.color }}>{item.content}</li>)
+    const listPasswordItems = this.emailInstruction.map((item) => <li key={item.type}>{item.content}</li>)
     return (
       <div className='auth-page'>
         <div className='container page'>
@@ -70,6 +109,7 @@ class Register extends React.PureComponent {
 
               <form onSubmit={this.submitForm(username, email, password)}>
                 <fieldset>
+
 
                   <fieldset className='form-group'>
                     <input
@@ -89,6 +129,9 @@ class Register extends React.PureComponent {
                       value={this.props.email || ''}
                       onChange={this.changeEmail}
                       onFocus={this.onEmailInputForcus} />
+                    <ul style={{ display: this.displayEmailInstruction ? 'block' : 'none' }}>
+                      {listEmailItems}
+                    </ul>
                   </fieldset>
 
                   <fieldset className='form-group'>
@@ -115,7 +158,7 @@ class Register extends React.PureComponent {
 
           </div>
         </div>
-      </div>
+      </div >
     )
   }
 }
