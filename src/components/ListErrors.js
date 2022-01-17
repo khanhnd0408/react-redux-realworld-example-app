@@ -5,7 +5,7 @@ class ListErrors extends React.PureComponent {
     const errors = this.props.errors;
     if (errors) {
       return (
-        <ul className="error-messages">
+        <ul className={`error-messages ${this.props.shouldDisplay ? '' : "not-display"}`}>
           {
             Object.keys(errors).map(key => {
               return (

@@ -33,7 +33,7 @@ const mapDispatchToProps = dispatch => ({
 })
 
 class App extends React.PureComponent {
-  componentDidUpdate (prevProps) {
+  componentDidUpdate(prevProps) {
     if (this.props.redirectTo && this.props.redirectTo !== prevProps.redirectTo) {
       // this.context.router.replace(this.props.redirectTo);
       store.dispatch(push(this.props.redirectTo))
@@ -41,7 +41,7 @@ class App extends React.PureComponent {
     }
   }
 
-  componentDidMount () {
+  componentDidMount() {
     const token = window.localStorage.getItem('jwt')
     if (token) {
       agent.setToken(token)
@@ -50,26 +50,26 @@ class App extends React.PureComponent {
     this.props.onLoad(token ? agent.Auth.current() : null, token)
   }
 
-  render () {
+  render() {
     if (this.props.appLoaded) {
       return (
         <div>
           <Header
             appName={this.props.appName}
             currentUser={this.props.currentUser} />
-            <Suspense fallback={<p>Loading...</p>}>
-              <Switch>
-                <Route exact path='/' component={Home} />
-                <Route path='/login' component={Login} />
-                <Route path='/register' component={Register} />
-                <Route path='/editor/:slug' component={Editor} />
-                <Route path='/editor' component={Editor} />
-                <Route path='/article/:id' component={Article} />
-                <Route path='/settings' component={Settings} />
-                <Route path='/@:username/favorites' component={ProfileFavorites} />
-                <Route path='/@:username' component={Profile} />
-              </Switch>
-            </Suspense>
+          <Suspense fallback={<p>Loading...</p>}>
+            <Switch>
+              <Route exact path='/' component={Home} />
+              <Route path='/login' component={Login} />
+              <Route path='/register' component={Register} />
+              <Route path='/editor/:slug' component={Editor} />
+              <Route path='/editor' component={Editor} />
+              <Route path='/article/:id' component={Article} />
+              <Route path='/settings' component={Settings} />
+              <Route path='/@:username/favorites' component={ProfileFavorites} />
+              <Route path='/@:username' component={Profile} />
+            </Switch>
+          </Suspense>
         </div>
       )
     }

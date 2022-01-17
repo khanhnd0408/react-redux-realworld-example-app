@@ -22,22 +22,33 @@ const mapDispatchToProps = dispatch => ({
     dispatch({ type: LOGIN_PAGE_UNLOADED })
 })
 
-class Login extends React.PureComponent {
-  constructor () {
+class Login extends React.Component {
+  constructor() {
     super()
     this.changeEmail = ev => this.props.onChangeEmail(ev.target.value)
     this.changePassword = ev => this.props.onChangePassword(ev.target.value)
     this.submitForm = (email, password) => ev => {
-      ev.preventDefault()
-      this.props.onSubmit(email, password)
+      ev.preventDefault();
+      this.props.onSubmit(email, password);
+      this.showErrorsMsg = true;
+    }
+    this.showErrorsMsg = false;
+  }
+
+  componentDidUpdate() {
+    if (this.props.errors !== undefined && this.showErrorsMsg) {
+      setTimeout(() => {
+        this.showErrorsMsg = false;
+        this.forceUpdate();
+      }, 2000);
     }
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     this.props.onUnload()
   }
 
-  render () {
+  render() {
     const email = this.props.email
     const password = this.props.password
     return (
@@ -53,7 +64,7 @@ class Login extends React.PureComponent {
                 </Link>
               </p>
 
-              <ListErrors errors={this.props.errors} />
+              <ListErrors shouldDisplay={this.showErrorsMsg} errors={this.props.errors} />
 
               <form onSubmit={this.submitForm(email, password)}>
                 <fieldset>

@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "connected-react-router": "^6.9.1",
+    "dotenv": "^11.0.0",
     "history": "^4.10.1",
     "marked": "^2.0.3",
     "prop-types": "^15.7.2",
@@ -23,9 +24,9 @@
     "superagent-promise": "^1.1.0"
   },
   "scripts": {
-    "start": "cross-env PORT=4100 react-scripts start",
+    "start": "cross-env HOST=0.0.0.0 PORT=3000 react-scripts start",
     "build": "react-scripts build",
-    "test": "cross-env PORT=4100 react-scripts test --env=jsdom",
+    "test": "cross-env HOST=0.0.0.0 PORT=3000 react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
   "browserslist": [

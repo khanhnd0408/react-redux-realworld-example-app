@@ -27,7 +27,7 @@ const mapDispatchToProps = dispatch => ({
 })
 
 class Register extends React.PureComponent {
-  constructor () {
+  constructor() {
     super()
     this.changeEmail = ev => this.props.onChangeEmail(ev.target.value)
     this.changePassword = ev => this.props.onChangePassword(ev.target.value)
@@ -36,13 +36,19 @@ class Register extends React.PureComponent {
       ev.preventDefault()
       this.props.onSubmit(username, email, password)
     }
+    this.onEmailInputForcus = ev => {
+      console.log("alo alo");
+    }
+    this.onPasswordInputForcus = ev => {
+      console.log("ola ola");
+    }
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     this.props.onUnload()
   }
 
-  render () {
+  render() {
     const email = this.props.email
     const password = this.props.password
     const username = this.props.username
@@ -81,7 +87,8 @@ class Register extends React.PureComponent {
                       autoComplete='username'
                       placeholder='Email'
                       value={this.props.email || ''}
-                      onChange={this.changeEmail} />
+                      onChange={this.changeEmail}
+                      onFocus={this.onEmailInputForcus} />
                   </fieldset>
 
                   <fieldset className='form-group'>
@@ -91,7 +98,8 @@ class Register extends React.PureComponent {
                       autoComplete='current-password'
                       placeholder='Password'
                       value={this.props.password || ''}
-                      onChange={this.changePassword} />
+                      onChange={this.changePassword}
+                      onFocus={this.onPasswordInputForcus} />
                   </fieldset>
 
                   <button
